@@ -1,0 +1,10 @@
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\bin\Debug\processamento-de-imagens.exe.config
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\bin\Debug\processamento-de-imagens.exe
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\bin\Debug\processamento-de-imagens.pdb
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.csproj.AssemblyReference.cache
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento_de_imagens.Form1.resources
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento_de_imagens.Properties.Resources.resources
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.csproj.GenerateResource.cache
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.exe
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.pdb
