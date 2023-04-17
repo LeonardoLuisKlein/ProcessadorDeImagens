@@ -282,10 +282,10 @@ namespace processamento_de_imagens
                 {
                     Color color1 = ((Bitmap)image1).GetPixel(x, y);
                     Color color2 = ((Bitmap)image1).GetPixel(x, y);
-                    int mediaR = (color1.R + color2.R) / 3;
-                    int mediaG = (color1.G + color2.G) / 3;
-                    int mediaB = (color1.B + color2.B) / 3;
-                    Color corResultado = Color.FromArgb(mediaR, mediaG, mediaB);
+                    int r = (color1.R + color2.R) / 3;
+                    int g = (color1.G + color2.G) / 3;
+                    int b = (color1.B + color2.B) / 3;
+                    Color corResultado = Color.FromArgb(r, g, b);
                     imagemResultado.SetPixel(x, y, corResultado);
                 }
             }
@@ -359,9 +359,9 @@ namespace processamento_de_imagens
             {
                 for (int y = 0; y < image1.Height; y++)
                 {
-                    Color cor1 = ((Bitmap)image1).GetPixel(x, y);
-                    Color cor2 = ((Bitmap)image2).GetPixel(x, y);
-                    Color corResultado = Color.FromArgb(cor1.R & cor2.R, cor1.G & cor2.G, cor1.B & cor2.B);
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    Color color2 = ((Bitmap)image2).GetPixel(x, y);
+                    Color corResultado = Color.FromArgb(color1.R & color2.R, color1.G & color2.G, color1.B & color2.B);
                     imagemResultado.SetPixel(x, y, corResultado);
                 }
             }
@@ -392,9 +392,9 @@ namespace processamento_de_imagens
             {
                 for (int y = 0; y < image1.Height; y++)
                 {
-                    Color cor1 = ((Bitmap)image1).GetPixel(x, y);
-                    Color cor2 = ((Bitmap)image2).GetPixel(x, y);
-                    Color corResultado = Color.FromArgb(cor1.R | cor2.R, cor1.G | cor2.G, cor1.B | cor2.B);
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    Color color2 = ((Bitmap)image2).GetPixel(x, y);
+                    Color corResultado = Color.FromArgb(color1.R | color2.R, color1.G | color2.G, color1.B | color2.B);
                     imagemResultado.SetPixel(x, y, corResultado);
                 }
             }
@@ -425,9 +425,9 @@ namespace processamento_de_imagens
             {
                 for (int y = 0; y < image1.Height; y++)
                 {
-                    Color cor1 = ((Bitmap)image1).GetPixel(x, y);
-                    Color cor2 = ((Bitmap)image2).GetPixel(x, y);
-                    Color corResultado = Color.FromArgb(cor1.R ^ cor2.R, cor1.G ^ cor2.G, cor1.B ^ cor2.B);
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    Color color2 = ((Bitmap)image2).GetPixel(x, y);
+                    Color corResultado = Color.FromArgb(color1.R ^ color2.R, color1.G ^ color2.G, color1.B ^ color2.B);
                     imagemResultado.SetPixel(x, y, corResultado);
                 }
             }
@@ -458,13 +458,13 @@ namespace processamento_de_imagens
             {
                 for (int y = 0; y < image1.Height; y++)
                 {
-                    Color cor1 = ((Bitmap)image1).GetPixel(x, y);
-                    Color cor2 = ((Bitmap)image1).GetPixel(x, y);
-                    int novoR = 255 - Math.Min(255, Math.Max(0, cor1.R + cor2.R));
-                    int novoG = 255 - Math.Min(255, Math.Max(0, cor1.G + cor2.G));
-                    int novoB = 255 - Math.Min(255, Math.Max(0, cor1.B + cor2.B));
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    Color color2 = ((Bitmap)image1).GetPixel(x, y);
+                    int r = 255 - Math.Min(255, Math.Max(0, color1.R + color2.R));
+                    int g = 255 - Math.Min(255, Math.Max(0, color1.G + color2.G));
+                    int b = 255 - Math.Min(255, Math.Max(0, color1.B + color2.B));
 
-                    Color novaCor = Color.FromArgb(novoR, novoG, novoB);
+                    Color novaCor = Color.FromArgb(r, g, b);
                     imagemResultado.SetPixel(x, y, novaCor);
                 }
             }
