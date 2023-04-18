@@ -59,6 +59,11 @@ namespace processamento_de_imagens
             this.btNegativo = new System.Windows.Forms.Button();
             this.btRgbBin = new System.Windows.Forms.Button();
             this.btRgbCinza = new System.Windows.Forms.Button();
+            this.rbA = new System.Windows.Forms.RadioButton();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.rbB = new System.Windows.Forms.RadioButton();
+            this.rbDuas = new System.Windows.Forms.RadioButton();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.imgA)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -71,6 +76,8 @@ namespace processamento_de_imagens
             ((System.ComponentModel.ISupportInitialize)(this.imgFinal)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // imgA
@@ -343,16 +350,16 @@ namespace processamento_de_imagens
             // 
             this.groupBox6.Controls.Add(this.btExer7);
             this.groupBox6.Controls.Add(this.btExer9);
-            this.groupBox6.Location = new System.Drawing.Point(35, 405);
+            this.groupBox6.Location = new System.Drawing.Point(23, 405);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(342, 62);
+            this.groupBox6.Size = new System.Drawing.Size(363, 62);
             this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Exers aula";
             // 
             // btNegativo
             // 
-            this.btNegativo.Location = new System.Drawing.Point(35, 489);
+            this.btNegativo.Location = new System.Drawing.Point(12, 19);
             this.btNegativo.Name = "btNegativo";
             this.btNegativo.Size = new System.Drawing.Size(110, 38);
             this.btNegativo.TabIndex = 7;
@@ -362,7 +369,7 @@ namespace processamento_de_imagens
             // 
             // btRgbBin
             // 
-            this.btRgbBin.Location = new System.Drawing.Point(151, 489);
+            this.btRgbBin.Location = new System.Drawing.Point(128, 19);
             this.btRgbBin.Name = "btRgbBin";
             this.btRgbBin.Size = new System.Drawing.Size(110, 38);
             this.btRgbBin.TabIndex = 8;
@@ -372,7 +379,7 @@ namespace processamento_de_imagens
             // 
             // btRgbCinza
             // 
-            this.btRgbCinza.Location = new System.Drawing.Point(267, 489);
+            this.btRgbCinza.Location = new System.Drawing.Point(244, 19);
             this.btRgbCinza.Name = "btRgbCinza";
             this.btRgbCinza.Size = new System.Drawing.Size(110, 38);
             this.btRgbCinza.TabIndex = 9;
@@ -380,14 +387,70 @@ namespace processamento_de_imagens
             this.btRgbCinza.UseVisualStyleBackColor = true;
             this.btRgbCinza.Click += new System.EventHandler(this.btRgbCinza_Click);
             // 
+            // rbA
+            // 
+            this.rbA.AutoSize = true;
+            this.rbA.Location = new System.Drawing.Point(13, 19);
+            this.rbA.Name = "rbA";
+            this.rbA.Size = new System.Drawing.Size(72, 17);
+            this.rbA.TabIndex = 10;
+            this.rbA.TabStop = true;
+            this.rbA.Text = "Imagem A";
+            this.rbA.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.btRgbCinza);
+            this.groupBox7.Controls.Add(this.btRgbBin);
+            this.groupBox7.Controls.Add(this.btNegativo);
+            this.groupBox7.Location = new System.Drawing.Point(23, 473);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(363, 70);
+            this.groupBox7.TabIndex = 11;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Operações";
+            // 
+            // rbB
+            // 
+            this.rbB.AutoSize = true;
+            this.rbB.Location = new System.Drawing.Point(104, 19);
+            this.rbB.Name = "rbB";
+            this.rbB.Size = new System.Drawing.Size(72, 17);
+            this.rbB.TabIndex = 12;
+            this.rbB.TabStop = true;
+            this.rbB.Text = "Imagem B";
+            this.rbB.UseVisualStyleBackColor = true;
+            // 
+            // rbDuas
+            // 
+            this.rbDuas.AutoSize = true;
+            this.rbDuas.Location = new System.Drawing.Point(192, 19);
+            this.rbDuas.Name = "rbDuas";
+            this.rbDuas.Size = new System.Drawing.Size(99, 17);
+            this.rbDuas.TabIndex = 13;
+            this.rbDuas.TabStop = true;
+            this.rbDuas.Text = "Ambas imagens";
+            this.rbDuas.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.rbDuas);
+            this.groupBox8.Controls.Add(this.rbB);
+            this.groupBox8.Controls.Add(this.rbA);
+            this.groupBox8.Location = new System.Drawing.Point(10, 559);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(306, 51);
+            this.groupBox8.TabIndex = 14;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Escolha de imagens";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1376, 807);
-            this.Controls.Add(this.btRgbCinza);
-            this.Controls.Add(this.btRgbBin);
-            this.Controls.Add(this.btNegativo);
+            this.Controls.Add(this.groupBox8);
+            this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -395,7 +458,7 @@ namespace processamento_de_imagens
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "Form1";
-            this.Text = "Processar imagens";
+            this.Text = "Processador de imagens";
             ((System.ComponentModel.ISupportInitialize)(this.imgA)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -408,6 +471,9 @@ namespace processamento_de_imagens
             ((System.ComponentModel.ISupportInitialize)(this.imgFinal)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -444,6 +510,11 @@ namespace processamento_de_imagens
         private System.Windows.Forms.Button btNegativo;
         private System.Windows.Forms.Button btRgbBin;
         private System.Windows.Forms.Button btRgbCinza;
+        private System.Windows.Forms.RadioButton rbA;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.RadioButton rbB;
+        private System.Windows.Forms.RadioButton rbDuas;
+        private System.Windows.Forms.GroupBox groupBox8;
     }
 }
 
