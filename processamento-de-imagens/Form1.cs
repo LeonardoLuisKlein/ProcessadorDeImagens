@@ -503,124 +503,102 @@ namespace processamento_de_imagens
 
         private void btExer7_Click(object sender, EventArgs e)
         {
-            int[,] matriz1;
-            matriz1 = new int[3, 3];
-
-            int[,] matriz2;
-            matriz2 = new int[3, 3];
-
-            int[,] matrizAux;
-            matrizAux = new int[3, 3];
-
-            int[,] saida1;
-            saida1 = new int[3, 3];
-
-            int[,] saida2;
-            saida2 = new int[3, 3];
-
-            Random randNum = new Random();
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int num;
-
-                    num = randNum.Next(0, 255);
-
-                    matriz1[i, j] = num;
-                }
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int pixel;
-
-                    pixel = randNum.Next(0, 255);
-
-                    matriz2[i, j] = pixel;
-                }
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int num;
-
-                    if (matriz1[i, j] + matriz2[i, j] > 255) num = 255;
-                    else num = matriz1[i, j] + matriz2[i, j];
-
-                    saida1[i, j] = num;
-                }
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int num;
-
-                    num = matriz1[i, j] + matriz2[i, j];
-
-                    matrizAux[i, j] = num;
-                }
-            }
-
-
-            int pxMax = 0;
-            int pxMin = 255;
-
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int num = matriz1[i, j] + matriz2[i, j];
-
-                    if (num > pxMax) pxMax = num;
-                    if (num < pxMin) pxMin = num;
-                }
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int pixel_normalizado;
-
-                    pixel_normalizado = (int)(((double)(matrizAux[i, j] - pxMin) / (pxMax - pxMin)) * 255);
-
-                    saida2[i, j] = pixel_normalizado;
-                }
-            }
-
-            ExibirMatriz(matriz1, label1);
-            ExibirMatriz(matriz2, label2);
-            ExibirMatriz(matrizAux, label3);
-            ExibirMatriz(saida1, label4);
-            ExibirMatriz(saida2, label5);
-
+            var form = new Exer7();
+            form.Show();
         }
 
-        private void ExibirMatriz(int[,] matriz, Label label)
+        private void btRgbCinza_Click(object sender, EventArgs e)
         {
-            string texto = "";
-            int largura = matriz.GetLength(0);
-            int altura = matriz.GetLength(1);
+            Image image1 = imgA.Image;
 
-            for (int i = 0; i < largura; i++)
+            if (image1 == null)
             {
-                for (int j = 0; j < altura; j++)
-                {
-                    texto += matriz[i, j] + " ";
-                }
-                texto += "\n";
+                MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                return;
+
             }
 
-            label.Text = texto;
+            Bitmap imagemResultado = new Bitmap(image1.Width, image1.Height);
+
+            for (int x = 0; x < image1.Width; x++)
+            {
+                for (int y = 0; y < image1.Height; y++)
+                {
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    int r = color1.R;
+                    int g = color1.G;
+                    int b = color1.B;
+                    int gray = (r + g + b) / 3;
+
+                    Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                    imagemResultado.SetPixel(x, y, novaCor);
+
+                }
+            }
+
+            imgFinal.Image = imagemResultado;
+        }
+
+        private void btNegativo_Click(object sender, EventArgs e)
+        {
+            Image image1 = imgA.Image;
+
+            if (image1 == null)
+            {
+                MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                return;
+
+            }
+
+            Bitmap imagemResultado = new Bitmap(image1.Width, image1.Height);
+
+            for (int x = 0; x < image1.Width; x++)
+            {
+                for (int y = 0; y < image1.Height; y++)
+                {
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    Color color2 = ((Bitmap)image1).GetPixel(x, y);
+                    int r = 255 - Math.Min(255, Math.Max(0, color1.R + color2.R));
+                    int g = 255 - Math.Min(255, Math.Max(0, color1.G + color2.G));
+                    int b = 255 - Math.Min(255, Math.Max(0, color1.B + color2.B));
+
+                    Color novaCor = Color.FromArgb(r, g, b);
+                    imagemResultado.SetPixel(x, y, novaCor);
+                }
+            }
+
+            imgFinal.Image = imagemResultado;
+        }
+
+        private void btRgbBin_Click(object sender, EventArgs e)
+        {
+            Image image1 = imgA.Image;
+
+            if (image1 == null)
+            {
+                MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                return;
+
+            }
+
+            Bitmap imagemResultado = new Bitmap(image1.Width, image1.Height);
+
+            for (int x = 0; x < image1.Width; x++)
+            {
+                for (int y = 0; y < image1.Height; y++)
+                {
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    int r = color1.R;
+                    int g = color1.G;
+                    int b = color1.B;
+                    int gray = (r + g + b) / 3;
+                    int binario = gray > 128 ? 255 : 0;
+                    Color novaImagem = Color.FromArgb(binario, binario, binario);
+                    imagemResultado.SetPixel(x, y, novaImagem);
+                }
+            }
+
+            imgFinal.Image = imagemResultado;
         }
     }
 }

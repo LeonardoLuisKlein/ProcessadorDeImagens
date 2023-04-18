@@ -8,3 +8,4 @@ C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\D
 C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.csproj.CoreCompileInputs.cache
 C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.exe
 C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento-de-imagens.pdb
+C:\Users\USUARIO\Desktop\processamento-de-imagens\processamento-de-imagens\obj\Debug\processamento_de_imagens.Exer7.resources
