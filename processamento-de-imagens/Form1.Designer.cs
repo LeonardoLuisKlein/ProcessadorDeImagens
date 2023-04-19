@@ -64,6 +64,8 @@ namespace processamento_de_imagens
             this.rbB = new System.Windows.Forms.RadioButton();
             this.rbDuas = new System.Windows.Forms.RadioButton();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.tbBrilho = new System.Windows.Forms.TrackBar();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.imgA)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -78,6 +80,8 @@ namespace processamento_de_imagens
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbBrilho)).BeginInit();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // imgA
@@ -119,7 +123,7 @@ namespace processamento_de_imagens
             this.groupBox2.Size = new System.Drawing.Size(328, 387);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Imagem A";
+            this.groupBox2.Text = "Imagem B";
             // 
             // btCarregaImgB
             // 
@@ -308,7 +312,7 @@ namespace processamento_de_imagens
             // 
             // btOr
             // 
-            this.btOr.Location = new System.Drawing.Point(20, 52);
+            this.btOr.Location = new System.Drawing.Point(22, 52);
             this.btOr.Name = "btOr";
             this.btOr.Size = new System.Drawing.Size(179, 27);
             this.btOr.TabIndex = 9;
@@ -437,18 +441,37 @@ namespace processamento_de_imagens
             this.groupBox8.Controls.Add(this.rbDuas);
             this.groupBox8.Controls.Add(this.rbB);
             this.groupBox8.Controls.Add(this.rbA);
-            this.groupBox8.Location = new System.Drawing.Point(10, 559);
+            this.groupBox8.Location = new System.Drawing.Point(23, 558);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(306, 51);
             this.groupBox8.TabIndex = 14;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Escolha de imagens";
             // 
+            // tbBrilho
+            // 
+            this.tbBrilho.Location = new System.Drawing.Point(6, 19);
+            this.tbBrilho.Name = "tbBrilho";
+            this.tbBrilho.Size = new System.Drawing.Size(283, 45);
+            this.tbBrilho.TabIndex = 15;
+            this.tbBrilho.Scroll += new System.EventHandler(this.tbBrilho_Scroll);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.tbBrilho);
+            this.groupBox9.Location = new System.Drawing.Point(23, 624);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(295, 73);
+            this.groupBox9.TabIndex = 16;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Ajustar o brilho";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1376, 807);
+            this.ClientSize = new System.Drawing.Size(1376, 716);
+            this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -474,6 +497,9 @@ namespace processamento_de_imagens
             this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbBrilho)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -515,6 +541,8 @@ namespace processamento_de_imagens
         private System.Windows.Forms.RadioButton rbB;
         private System.Windows.Forms.RadioButton rbDuas;
         private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.TrackBar tbBrilho;
+        private System.Windows.Forms.GroupBox groupBox9;
     }
 }
 

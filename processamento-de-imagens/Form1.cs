@@ -17,6 +17,9 @@ namespace processamento_de_imagens
         public Form1()
         {
             InitializeComponent();
+            tbBrilho.Maximum = 100;
+            tbBrilho.Minimum = 0;
+
         }
 
         private void btCarregaImgA_Click(object sender, EventArgs e)
@@ -36,6 +39,8 @@ namespace processamento_de_imagens
                 MessageBox.Show("Selecione uma imagem valida");
                 return;
             }
+
+            
         }
 
         private void btCarregaImgB_Click(object sender, EventArgs e)
@@ -691,9 +696,9 @@ namespace processamento_de_imagens
                 {
                     Color color1 = ((Bitmap)image1).GetPixel(x, y);
                     Color color2 = ((Bitmap)image2).GetPixel(x, y);
-                    int r = (int)Math.Round((1 - blending) * color1.R + blending * color2.R);
-                    int g = (int)Math.Round((1 - blending) * color1.G + blending * color2.G);
-                    int b = (int)Math.Round((1 - blending) * color1.B + blending * color2.B);
+                    int r = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.R + blending * color2.R)));
+                    int g = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.G + blending * color2.G)));
+                    int b = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.B + blending * color2.B)));
 
                     imagemResultado.SetPixel(x, y, Color.FromArgb(r, g, b));
                 }
@@ -726,9 +731,9 @@ namespace processamento_de_imagens
                     for (int y = 0; y < image1.Height; y++)
                     {
                         Color color1 = ((Bitmap)image1).GetPixel(x, y);
-                        int r = (int)Math.Round((1 - blending) * color1.R + blending * color1.R);
-                        int g = (int)Math.Round((1 - blending) * color1.G + blending * color1.G);
-                        int b = (int)Math.Round((1 - blending) * color1.B + blending * color1.B);
+                        int r = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.R + blending * color1.R)));
+                        int g = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.G + blending * color1.G)));
+                        int b = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.B + blending * color1.B)));
 
                         imagemResultado.SetPixel(x, y, Color.FromArgb(r, g, b));
                     }
@@ -761,9 +766,9 @@ namespace processamento_de_imagens
                     for (int y = 0; y < image1.Height; y++)
                     {
                         Color color1 = ((Bitmap)image1).GetPixel(x, y);
-                        int r = (int)Math.Round((1 - blending) * color1.R + blending * color1.R);
-                        int g = (int)Math.Round((1 - blending) * color1.G + blending * color1.G);
-                        int b = (int)Math.Round((1 - blending) * color1.B + blending * color1.B);
+                        int r = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.R + blending * color1.R)));
+                        int g = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.G + blending * color1.G)));
+                        int b = Math.Min(255, Math.Max(0, (int)Math.Round((1 - blending) * color1.B + blending * color1.B)));
 
                         imagemResultado.SetPixel(x, y, Color.FromArgb(r, g, b));
                     }
@@ -1404,6 +1409,145 @@ namespace processamento_de_imagens
                 }
 
                 imgFinal.Image = imagemResultado;
+            }
+        }
+
+        private void tbBrilho_Scroll(object sender, EventArgs e)
+        {
+            if (!rbA.Checked && !rbB.Checked && !rbDuas.Checked)
+            {
+                MessageBox.Show("Por favor, selecione uma opção para processar uma imagem");
+                return;
+            }
+
+            if (rbDuas.Checked)
+            {
+                Image image1 = imgA.Image;
+                Image image2 = imgB.Image;
+
+                if (image1 == null || image2 == null)
+                {
+                    MessageBox.Show("Por favor, selecione duas imagens");
+                    return;
+                }
+
+                if (image1.Width != image2.Width || image1.Height != image2.Height || image1.PixelFormat != image2.PixelFormat)
+                {
+                    MessageBox.Show("As imagens precisam ter o mesmo tamanho e formato para serem somadas.");
+                    return;
+                }
+
+                Bitmap imagemResultadoSoma = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        Color color2 = ((Bitmap)image2).GetPixel(x, y);
+
+                        int r = color1.R + color2.R;
+                        int g = color1.G + color2.G;
+                        int b = color1.B + color2.B;
+
+                        r = Math.Min(r, 255);
+                        g = Math.Min(g, 255);
+                        b = Math.Min(b, 255);
+
+                        imagemResultadoSoma.SetPixel(x, y, Color.FromArgb(r, g, b));
+                    }
+                }
+                imgFinal.Image = imagemResultadoSoma;
+
+                int brightnessValue = tbBrilho.Value - 50;
+
+                Image image3 = imgFinal.Image;
+
+                float[][] colorMatrixElements = {
+                    new float[] {1, 0, 0, 0, 0},
+                    new float[] {0, 1, 0, 0, 0},
+                    new float[] {0, 0, 1, 0, 0},
+                    new float[] {0, 0, 0, 1, 0},
+                    new float[] {brightnessValue/255f, brightnessValue/255f, brightnessValue/255f, 0, 1}
+                };
+                ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
+
+                ImageAttributes atributosImagem = new ImageAttributes();
+                atributosImagem.SetColorMatrix(colorMatrix);
+
+                Bitmap imagemResultado = new Bitmap(image3.Width, image3.Height);
+                Graphics graphics = Graphics.FromImage(imagemResultado);
+                graphics.DrawImage(image3, new Rectangle(0, 0, image3.Width, image3.Height), 0, 0, image3.Width, image3.Height, GraphicsUnit.Pixel, atributosImagem);
+                image3 = imagemResultado;
+
+                imgFinal.Image = imagemResultado;
+            }
+            
+            if (rbA.Checked) { 
+
+            int brightnessValue = tbBrilho.Value - 50;
+
+            Image image1 = imgA.Image;
+
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+                float[][] colorMatrixElements = {
+                    new float[] {1, 0, 0, 0, 0},
+                    new float[] {0, 1, 0, 0, 0},
+                    new float[] {0, 0, 1, 0, 0},
+                    new float[] {0, 0, 0, 1, 0},
+                    new float[] {brightnessValue/255f, brightnessValue/255f, brightnessValue/255f, 0, 1}
+    };
+            ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
+
+            ImageAttributes atributosImagem = new ImageAttributes();
+            atributosImagem.SetColorMatrix(colorMatrix);
+
+            Bitmap imagemResultado = new Bitmap(image1.Width, image1.Height);
+            Graphics graphics = Graphics.FromImage(imagemResultado);
+            graphics.DrawImage(image1, new Rectangle(0, 0, image1.Width, image1.Height), 0, 0, image1.Width, image1.Height, GraphicsUnit.Pixel, atributosImagem);
+            image1 = imagemResultado;
+
+            imgFinal.Image = imagemResultado;
+
+            }
+
+            if (rbB.Checked)
+            {
+                int brightnessValue = tbBrilho.Value - 50;
+
+                Image image1 = imgB.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem B");
+                    return;
+
+                }
+                float[][] colorMatrixElements = {
+                    new float[] {1, 0, 0, 0, 0},
+                    new float[] {0, 1, 0, 0, 0},
+                    new float[] {0, 0, 1, 0, 0},
+                    new float[] {0, 0, 0, 1, 0},
+                    new float[] {brightnessValue/255f, brightnessValue/255f, brightnessValue/255f, 0, 1}
+    };
+                ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
+
+                ImageAttributes atributosImagem = new ImageAttributes();
+                atributosImagem.SetColorMatrix(colorMatrix);
+
+                Bitmap imagemResultado = new Bitmap(image1.Width, image1.Height);
+                Graphics graphics = Graphics.FromImage(imagemResultado);
+                graphics.DrawImage(image1, new Rectangle(0, 0, image1.Width, image1.Height), 0, 0, image1.Width, image1.Height, GraphicsUnit.Pixel, atributosImagem);
+                image1 = imagemResultado;
+
+                imgFinal.Image = imagemResultado;
+
             }
         }
     }
