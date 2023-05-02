@@ -66,6 +66,7 @@ namespace processamento_de_imagens
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tbBrilho = new System.Windows.Forms.TrackBar();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btHistograma = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imgA)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -342,7 +343,7 @@ namespace processamento_de_imagens
             // 
             // btExer7
             // 
-            this.btExer7.Location = new System.Drawing.Point(232, 16);
+            this.btExer7.Location = new System.Drawing.Point(116, 18);
             this.btExer7.Name = "btExer7";
             this.btExer7.Size = new System.Drawing.Size(110, 38);
             this.btExer7.TabIndex = 6;
@@ -356,7 +357,7 @@ namespace processamento_de_imagens
             this.groupBox6.Controls.Add(this.btExer9);
             this.groupBox6.Location = new System.Drawing.Point(23, 405);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(363, 62);
+            this.groupBox6.Size = new System.Drawing.Size(238, 62);
             this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Exers aula";
@@ -466,11 +467,22 @@ namespace processamento_de_imagens
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Ajustar o brilho";
             // 
+            // btHistograma
+            // 
+            this.btHistograma.Location = new System.Drawing.Point(267, 423);
+            this.btHistograma.Name = "btHistograma";
+            this.btHistograma.Size = new System.Drawing.Size(110, 38);
+            this.btHistograma.TabIndex = 17;
+            this.btHistograma.Text = "Equalizar histograma";
+            this.btHistograma.UseVisualStyleBackColor = true;
+            this.btHistograma.Click += new System.EventHandler(this.btHistograma_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1376, 716);
+            this.Controls.Add(this.btHistograma);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
@@ -543,6 +555,7 @@ namespace processamento_de_imagens
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.TrackBar tbBrilho;
         private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button btHistograma;
     }
 }
 

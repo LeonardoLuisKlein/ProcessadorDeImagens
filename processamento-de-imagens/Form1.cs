@@ -8,7 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.IO;
 
 namespace processamento_de_imagens
 {
@@ -19,7 +22,6 @@ namespace processamento_de_imagens
             InitializeComponent();
             tbBrilho.Maximum = 100;
             tbBrilho.Minimum = 0;
-
         }
 
         private void btCarregaImgA_Click(object sender, EventArgs e)
@@ -39,8 +41,6 @@ namespace processamento_de_imagens
                 MessageBox.Show("Selecione uma imagem valida");
                 return;
             }
-
-            
         }
 
         private void btCarregaImgB_Click(object sender, EventArgs e)
@@ -1548,6 +1548,170 @@ namespace processamento_de_imagens
 
                 imgFinal.Image = imagemResultado;
 
+            }
+        }
+
+        private void btHistograma_Click(object sender, EventArgs e)
+        {
+            if (!rbA.Checked && !rbB.Checked && !rbDuas.Checked)
+            {
+                MessageBox.Show("Por favor, selecione uma opção para processar uma imagem");
+                return;
+            }
+
+            if (rbDuas.Checked)
+            {
+                MessageBox.Show("O processamento é feito somente com a imagem A ou B");
+                return;
+            }
+
+            if (rbA.Checked) { 
+            // Carrega a imagem em escala de cinza
+            Image image1 = imgA.Image;
+
+            if (image1 == null)
+            {
+                MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                return;
+
+            }
+
+            Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+            for (int x = 0; x < image1.Width; x++)
+            {
+                for (int y = 0; y < image1.Height; y++)
+                {
+                    Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                    int r = color1.R;
+                    int g = color1.G;
+                    int b = color1.B;
+                    int gray = (r + g + b) / 3;
+
+                    Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                    imagemCinza.SetPixel(x, y, novaCor);
+
+                }
+            }
+
+            int[] histograma = new int[256];
+            for (int i = 0; i < imagemCinza.Width; i++)
+            {
+                for (int j = 0; j < imagemCinza.Height; j++)
+                {
+                    Color c = imagemCinza.GetPixel(i, j);
+                    int gray = (int)(c.R * 0.299 + c.G * 0.587 + c.B * 0.114);
+                    histograma[gray]++;
+                }
+            }
+
+            // Calcula a função de distribuição acumulada (CDF) do histograma
+            int[] cdf = new int[256];
+            int sum = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                sum += histograma[i];
+                cdf[i] = sum;
+            }
+
+            // Equaliza o histograma
+            int pixels = imagemCinza.Width * imagemCinza.Height;
+            for (int i = 0; i < 256; i++)
+            {
+                cdf[i] = (int)(255 * ((float)cdf[i] / pixels));
+            }
+
+            // Cria uma nova imagem equalizada
+            Bitmap imagemEqualizada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+            for (int i = 0; i < imagemCinza.Width; i++)
+            {
+                for (int j = 0; j < imagemCinza.Height; j++)
+                {
+                    Color c = imagemCinza.GetPixel(i, j);
+                    int gray = (int)(c.R * 0.299 + c.G * 0.587 + c.B * 0.114);
+                    int eqGray = cdf[gray];
+                    Color eqColor = Color.FromArgb(eqGray, eqGray, eqGray);
+                    imagemEqualizada.SetPixel(i, j, eqColor);
+                }
+            }
+
+                imgFinal.Image = imagemEqualizada;
+
+            }
+
+            if (rbB.Checked)
+            {
+                // Carrega a imagem em escala de cinza
+                Image image1 = imgB.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem B");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int[] histograma = new int[256];
+                int[] histogramaFinal = new int[256];
+                for (int i = 0; i < imagemCinza.Width; i++)
+                {
+                    for (int j = 0; j < imagemCinza.Height; j++)
+                    {
+                        Color c = imagemCinza.GetPixel(i, j);
+                        int gray = (int)(c.R * 0.299 + c.G * 0.587 + c.B * 0.114);
+                        histograma[gray]++;
+                    }
+                }
+
+                // Calcula a função de distribuição acumulada (CDF) do histograma
+                int[] cdf = new int[256];
+                int sum = 0;
+                for (int i = 0; i < 256; i++)
+                {
+                    sum += histograma[i];
+                    cdf[i] = sum;
+                }
+
+                // Equaliza o histograma
+                int pixels = imagemCinza.Width * imagemCinza.Height;
+                for (int i = 0; i < 256; i++)
+                {
+                    cdf[i] = (int)(255 * ((float)cdf[i] / pixels));
+                }
+
+                // Cria uma nova imagem equalizada
+                Bitmap imagemEqualizada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+                for (int i = 0; i < imagemCinza.Width; i++)
+                {
+                    for (int j = 0; j < imagemCinza.Height; j++)
+                    {
+                        Color c = imagemCinza.GetPixel(i, j);
+                        int gray = (int)(c.R * 0.299 + c.G * 0.587 + c.B * 0.114);
+                        int eqGray = cdf[gray];
+                        Color eqColor = Color.FromArgb(eqGray, eqGray, eqGray);
+                        imagemEqualizada.SetPixel(i, j, eqColor);
+                    }
+                }
+
+                imgFinal.Image = imagemEqualizada;
             }
         }
     }
