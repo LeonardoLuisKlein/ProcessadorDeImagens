@@ -29,6 +29,12 @@ namespace processamento_de_imagens
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imgA = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btCarregaImgA = new System.Windows.Forms.Button();
@@ -61,12 +67,23 @@ namespace processamento_de_imagens
             this.btRgbCinza = new System.Windows.Forms.Button();
             this.rbA = new System.Windows.Forms.RadioButton();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btHistograma = new System.Windows.Forms.Button();
             this.rbB = new System.Windows.Forms.RadioButton();
             this.rbDuas = new System.Windows.Forms.RadioButton();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tbBrilho = new System.Windows.Forms.TrackBar();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.btHistograma = new System.Windows.Forms.Button();
+            this.rb3x3 = new System.Windows.Forms.RadioButton();
+            this.rb5x5 = new System.Windows.Forms.RadioButton();
+            this.rb7x7 = new System.Windows.Forms.RadioButton();
+            this.btMax = new System.Windows.Forms.Button();
+            this.btMin = new System.Windows.Forms.Button();
+            this.btMed = new System.Windows.Forms.Button();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lbBrilho = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imgA)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -83,6 +100,9 @@ namespace processamento_de_imagens
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbBrilho)).BeginInit();
             this.groupBox9.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
             // 
             // imgA
@@ -333,7 +353,7 @@ namespace processamento_de_imagens
             // 
             // btExer9
             // 
-            this.btExer9.Location = new System.Drawing.Point(0, 16);
+            this.btExer9.Location = new System.Drawing.Point(13, 16);
             this.btExer9.Name = "btExer9";
             this.btExer9.Size = new System.Drawing.Size(110, 38);
             this.btExer9.TabIndex = 5;
@@ -343,7 +363,7 @@ namespace processamento_de_imagens
             // 
             // btExer7
             // 
-            this.btExer7.Location = new System.Drawing.Point(116, 18);
+            this.btExer7.Location = new System.Drawing.Point(348, 16);
             this.btExer7.Name = "btExer7";
             this.btExer7.Size = new System.Drawing.Size(110, 38);
             this.btExer7.TabIndex = 6;
@@ -357,7 +377,7 @@ namespace processamento_de_imagens
             this.groupBox6.Controls.Add(this.btExer9);
             this.groupBox6.Location = new System.Drawing.Point(23, 405);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(238, 62);
+            this.groupBox6.Size = new System.Drawing.Size(481, 62);
             this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Exers aula";
@@ -406,19 +426,30 @@ namespace processamento_de_imagens
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.btRgbCinza);
+            this.groupBox7.Controls.Add(this.btHistograma);
             this.groupBox7.Controls.Add(this.btRgbBin);
             this.groupBox7.Controls.Add(this.btNegativo);
             this.groupBox7.Location = new System.Drawing.Point(23, 473);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(363, 70);
+            this.groupBox7.Size = new System.Drawing.Size(481, 70);
             this.groupBox7.TabIndex = 11;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Operações";
             // 
+            // btHistograma
+            // 
+            this.btHistograma.Location = new System.Drawing.Point(360, 19);
+            this.btHistograma.Name = "btHistograma";
+            this.btHistograma.Size = new System.Drawing.Size(110, 38);
+            this.btHistograma.TabIndex = 17;
+            this.btHistograma.Text = "Equalizar histograma";
+            this.btHistograma.UseVisualStyleBackColor = true;
+            this.btHistograma.Click += new System.EventHandler(this.btHistograma_Click);
+            // 
             // rbB
             // 
             this.rbB.AutoSize = true;
-            this.rbB.Location = new System.Drawing.Point(104, 19);
+            this.rbB.Location = new System.Drawing.Point(190, 19);
             this.rbB.Name = "rbB";
             this.rbB.Size = new System.Drawing.Size(72, 17);
             this.rbB.TabIndex = 12;
@@ -429,7 +460,7 @@ namespace processamento_de_imagens
             // rbDuas
             // 
             this.rbDuas.AutoSize = true;
-            this.rbDuas.Location = new System.Drawing.Point(192, 19);
+            this.rbDuas.Location = new System.Drawing.Point(360, 19);
             this.rbDuas.Name = "rbDuas";
             this.rbDuas.Size = new System.Drawing.Size(99, 17);
             this.rbDuas.TabIndex = 13;
@@ -444,14 +475,14 @@ namespace processamento_de_imagens
             this.groupBox8.Controls.Add(this.rbA);
             this.groupBox8.Location = new System.Drawing.Point(23, 558);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(306, 51);
+            this.groupBox8.Size = new System.Drawing.Size(481, 51);
             this.groupBox8.TabIndex = 14;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Escolha de imagens";
             // 
             // tbBrilho
             // 
-            this.tbBrilho.Location = new System.Drawing.Point(6, 19);
+            this.tbBrilho.Location = new System.Drawing.Point(99, 22);
             this.tbBrilho.Name = "tbBrilho";
             this.tbBrilho.Size = new System.Drawing.Size(283, 45);
             this.tbBrilho.TabIndex = 15;
@@ -459,30 +490,152 @@ namespace processamento_de_imagens
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.lbBrilho);
             this.groupBox9.Controls.Add(this.tbBrilho);
             this.groupBox9.Location = new System.Drawing.Point(23, 624);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(295, 73);
+            this.groupBox9.Size = new System.Drawing.Size(481, 73);
             this.groupBox9.TabIndex = 16;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Ajustar o brilho";
             // 
-            // btHistograma
+            // rb3x3
             // 
-            this.btHistograma.Location = new System.Drawing.Point(267, 423);
-            this.btHistograma.Name = "btHistograma";
-            this.btHistograma.Size = new System.Drawing.Size(110, 38);
-            this.btHistograma.TabIndex = 17;
-            this.btHistograma.Text = "Equalizar histograma";
-            this.btHistograma.UseVisualStyleBackColor = true;
-            this.btHistograma.Click += new System.EventHandler(this.btHistograma_Click);
+            this.rb3x3.AutoSize = true;
+            this.rb3x3.Location = new System.Drawing.Point(137, 36);
+            this.rb3x3.Name = "rb3x3";
+            this.rb3x3.Size = new System.Drawing.Size(50, 17);
+            this.rb3x3.TabIndex = 18;
+            this.rb3x3.TabStop = true;
+            this.rb3x3.Text = "3 X 3";
+            this.rb3x3.UseVisualStyleBackColor = true;
+            // 
+            // rb5x5
+            // 
+            this.rb5x5.AutoSize = true;
+            this.rb5x5.Location = new System.Drawing.Point(137, 135);
+            this.rb5x5.Name = "rb5x5";
+            this.rb5x5.Size = new System.Drawing.Size(50, 17);
+            this.rb5x5.TabIndex = 19;
+            this.rb5x5.TabStop = true;
+            this.rb5x5.Text = "5 X 5";
+            this.rb5x5.UseVisualStyleBackColor = true;
+            // 
+            // rb7x7
+            // 
+            this.rb7x7.AutoSize = true;
+            this.rb7x7.Location = new System.Drawing.Point(137, 252);
+            this.rb7x7.Name = "rb7x7";
+            this.rb7x7.Size = new System.Drawing.Size(50, 17);
+            this.rb7x7.TabIndex = 20;
+            this.rb7x7.TabStop = true;
+            this.rb7x7.Text = "7 X 7";
+            this.rb7x7.UseVisualStyleBackColor = true;
+            // 
+            // btMax
+            // 
+            this.btMax.Location = new System.Drawing.Point(6, 25);
+            this.btMax.Name = "btMax";
+            this.btMax.Size = new System.Drawing.Size(110, 38);
+            this.btMax.TabIndex = 21;
+            this.btMax.Text = "Máximo";
+            this.btMax.UseVisualStyleBackColor = true;
+            this.btMax.Click += new System.EventHandler(this.btMax_Click);
+            // 
+            // btMin
+            // 
+            this.btMin.Location = new System.Drawing.Point(6, 124);
+            this.btMin.Name = "btMin";
+            this.btMin.Size = new System.Drawing.Size(110, 38);
+            this.btMin.TabIndex = 22;
+            this.btMin.Text = "Mínimo";
+            this.btMin.UseVisualStyleBackColor = true;
+            this.btMin.Click += new System.EventHandler(this.btMin_Click);
+            // 
+            // btMed
+            // 
+            this.btMed.Location = new System.Drawing.Point(6, 241);
+            this.btMed.Name = "btMed";
+            this.btMed.Size = new System.Drawing.Size(110, 38);
+            this.btMed.TabIndex = 23;
+            this.btMed.Text = "Média";
+            this.btMed.UseVisualStyleBackColor = true;
+            this.btMed.Click += new System.EventHandler(this.btMed_Click);
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.btMed);
+            this.groupBox10.Controls.Add(this.btMin);
+            this.groupBox10.Controls.Add(this.btMax);
+            this.groupBox10.Controls.Add(this.rb7x7);
+            this.groupBox10.Controls.Add(this.rb5x5);
+            this.groupBox10.Controls.Add(this.rb3x3);
+            this.groupBox10.Location = new System.Drawing.Point(516, 405);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(213, 292);
+            this.groupBox10.TabIndex = 24;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Vizinhança";
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(0, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 716);
+            this.splitter1.TabIndex = 25;
+            this.splitter1.TabStop = false;
+            // 
+            // chart1
+            // 
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
+            this.chart1.Location = new System.Drawing.Point(735, 411);
+            this.chart1.Name = "chart1";
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(302, 286);
+            this.chart1.TabIndex = 26;
+            this.chart1.Text = "chart1";
+            // 
+            // chart2
+            // 
+            chartArea4.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart2.Legends.Add(legend4);
+            this.chart2.Location = new System.Drawing.Point(1062, 411);
+            this.chart2.Name = "chart2";
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart2.Series.Add(series4);
+            this.chart2.Size = new System.Drawing.Size(302, 286);
+            this.chart2.TabIndex = 27;
+            this.chart2.Text = "chart2";
+            // 
+            // lbBrilho
+            // 
+            this.lbBrilho.AutoSize = true;
+            this.lbBrilho.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBrilho.Location = new System.Drawing.Point(388, 22);
+            this.lbBrilho.Name = "lbBrilho";
+            this.lbBrilho.Size = new System.Drawing.Size(18, 20);
+            this.lbBrilho.TabIndex = 16;
+            this.lbBrilho.Text = "0";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1376, 716);
-            this.Controls.Add(this.btHistograma);
+            this.Controls.Add(this.chart2);
+            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
@@ -512,6 +665,10 @@ namespace processamento_de_imagens
             ((System.ComponentModel.ISupportInitialize)(this.tbBrilho)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -556,6 +713,17 @@ namespace processamento_de_imagens
         private System.Windows.Forms.TrackBar tbBrilho;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Button btHistograma;
+        private System.Windows.Forms.RadioButton rb3x3;
+        private System.Windows.Forms.RadioButton rb5x5;
+        private System.Windows.Forms.RadioButton rb7x7;
+        private System.Windows.Forms.Button btMax;
+        private System.Windows.Forms.Button btMin;
+        private System.Windows.Forms.Button btMed;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.Label lbBrilho;
     }
 }
 
