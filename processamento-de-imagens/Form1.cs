@@ -79,6 +79,95 @@ namespace processamento_de_imagens
             return media;
         }
 
+        // Função para pegar o valor mediano da matriz
+        private int GetMediana(int[,] matriz)
+        {
+            int tamanho = matriz.GetLength(0) * matriz.GetLength(1);
+            int[] elementos = new int[tamanho];
+
+            int index = 0;
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                for (int j = 0; j < matriz.GetLength(1); j++)
+                {
+                    elementos[index] = matriz[i, j];
+                    index++;
+                }
+            }
+
+            Array.Sort(elementos);
+
+            int mediana;
+            if (tamanho % 2 == 0)
+            {
+                int meio = tamanho / 2;
+                mediana = (elementos[meio - 1] + elementos[meio]) / 2;
+            }
+            else
+            {
+                int meio = tamanho / 2;
+                mediana = elementos[meio];
+            }
+
+            return mediana;
+        }
+
+        private int GetSuave(int[,] matriz)
+        {
+            int tamanho = matriz.GetLength(0) * matriz.GetLength(1);
+            int[] elementos = new int[tamanho];
+
+            int index = 0;
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                for (int j = 0; j < matriz.GetLength(1); j++)
+                {
+                    elementos[index] = matriz[i, j];
+                    index++;
+                }
+            }
+
+            Array.Sort(elementos);
+
+            int meio = elementos[4];
+            int min = elementos.Min();
+            int max = elementos.Max();
+            if (meio > max)
+            {
+                meio = max;
+            }
+            else if (meio < min)
+            {
+                meio = min;
+            }
+
+            elementos[4] = meio;
+
+            return elementos[4];
+        }
+
+        private int GetOrdem(int[,] matriz)
+        {
+            int tamanho = matriz.GetLength(0) * matriz.GetLength(1);
+            int[] elementos = new int[tamanho];
+
+            int index = 0;
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                for (int j = 0; j < matriz.GetLength(1); j++)
+                {
+                    elementos[index] = matriz[i, j];
+                    index++;
+                }
+            }
+
+            Array.Sort(elementos);
+
+            int ordem;
+            ordem = elementos[(int)nupOrdem.Value];
+            return ordem;
+        }
+
         // Função para carregar uma imagem no campo A
         private void btCarregaImgA_Click(object sender, EventArgs e)
         {
@@ -2181,7 +2270,6 @@ namespace processamento_de_imagens
                 {
                     tamanhoVizinhanca = 7;
                 }
-
                 Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
 
                 for (int x = 0; x < imagemCinza.Width; x++)
@@ -2513,6 +2601,603 @@ namespace processamento_de_imagens
                         int media = GetMedia(vizinhanca);
 
                         imagemFiltrada.SetPixel(x, y, Color.FromArgb(media, media, media));
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+        }
+
+        private void btMediana_Click(object sender, EventArgs e)
+        {
+            if (!rbA.Checked && !rbB.Checked && !rbDuas.Checked)
+            {
+                MessageBox.Show("Por favor, selecione uma opção para processar uma imagem");
+                return;
+            }
+
+            if (rbDuas.Checked)
+            {
+                MessageBox.Show("O processamento é feito somente com a imagem A ou B");
+                return;
+            }
+
+            if (rbA.Checked)
+            {
+                Image image1 = imgA.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 0;
+                if (!rb3x3.Checked && !rb5x5.Checked && !rb7x7.Checked)
+                {
+                    MessageBox.Show("Selecione o tamanho da vizinhança para filtrar!");
+                    return;
+                }
+                if (rb3x3.Checked)
+                {
+                    tamanhoVizinhanca = 3;
+                }
+                if (rb5x5.Checked)
+                {
+                    tamanhoVizinhanca = 5;
+                }
+                if (rb7x7.Checked)
+                {
+                    tamanhoVizinhanca = 7;
+                }
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        int media = GetMediana(vizinhanca);
+
+                        imagemFiltrada.SetPixel(x, y, Color.FromArgb(media, media, media));
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+
+            if (rbB.Checked)
+            {
+                Image image1 = imgB.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 0;
+                if (!rb3x3.Checked && !rb5x5.Checked && !rb7x7.Checked)
+                {
+                    MessageBox.Show("Selecione o tamanho da vizinhança para filtrar!");
+                    return;
+                }
+                if (rb3x3.Checked)
+                {
+                    tamanhoVizinhanca = 3;
+                }
+                if (rb5x5.Checked)
+                {
+                    tamanhoVizinhanca = 5;
+                }
+                if (rb7x7.Checked)
+                {
+                    tamanhoVizinhanca = 7;
+                }
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        int media = GetMediana(vizinhanca);
+
+                        imagemFiltrada.SetPixel(x, y, Color.FromArgb(media, media, media));
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+        }
+
+        private void btSuave_Click(object sender, EventArgs e)
+        {
+            if (!rbA.Checked && !rbB.Checked && !rbDuas.Checked)
+            {
+                MessageBox.Show("Por favor, selecione uma opção para processar uma imagem");
+                return;
+            }
+
+            if (rbDuas.Checked)
+            {
+                MessageBox.Show("O processamento é feito somente com a imagem A ou B");
+                return;
+            }
+
+            if (rbA.Checked)
+            {
+                Image image1 = imgA.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 0;
+                if (!rb3x3.Checked && !rb5x5.Checked && !rb7x7.Checked)
+                {
+                    MessageBox.Show("Selecione o tamanho da vizinhança para filtrar!");
+                    return;
+                }
+                if (rb3x3.Checked)
+                {
+                    tamanhoVizinhanca = 3;
+                }
+                if (rb5x5.Checked)
+                {
+                    tamanhoVizinhanca = 5;
+                }
+                if (rb7x7.Checked)
+                {
+                    tamanhoVizinhanca = 7;
+                }
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        int suave = GetSuave(vizinhanca);
+
+                        imagemFiltrada.SetPixel(x, y, Color.FromArgb(suave, suave, suave));
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+
+            if (rbB.Checked)
+            {
+                Image image1 = imgB.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 0;
+                if (!rb3x3.Checked && !rb5x5.Checked && !rb7x7.Checked)
+                {
+                    MessageBox.Show("Selecione o tamanho da vizinhança para filtrar!");
+                    return;
+                }
+                if (rb3x3.Checked)
+                {
+                    tamanhoVizinhanca = 3;
+                }
+                if (rb5x5.Checked)
+                {
+                    tamanhoVizinhanca = 5;
+                }
+                if (rb7x7.Checked)
+                {
+                    tamanhoVizinhanca = 7;
+                }
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        int suave = GetSuave(vizinhanca);
+
+                        imagemFiltrada.SetPixel(x, y, Color.FromArgb(suave, suave, suave));
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+        }
+
+        private void btOrdem_Click(object sender, EventArgs e)
+        {
+            if (!rbA.Checked && !rbB.Checked && !rbDuas.Checked)
+            {
+                MessageBox.Show("Por favor, selecione uma opção para processar uma imagem");
+                return;
+            }
+
+            if (rbDuas.Checked)
+            {
+                MessageBox.Show("O processamento é feito somente com a imagem A ou B");
+                return;
+            }
+
+            if (rbA.Checked)
+            {
+                Image image1 = imgA.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 0;
+                if (!rb3x3.Checked && !rb5x5.Checked && !rb7x7.Checked)
+                {
+                    MessageBox.Show("Selecione o tamanho da vizinhança para filtrar!");
+                    return;
+                }
+                if (rb3x3.Checked)
+                {
+                    tamanhoVizinhanca = 3;
+                }
+                if (rb5x5.Checked)
+                {
+                    tamanhoVizinhanca = 5;
+                }
+                if (rb7x7.Checked)
+                {
+                    tamanhoVizinhanca = 7;
+                }
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        int ordem = GetOrdem(vizinhanca);
+
+                        imagemFiltrada.SetPixel(x, y, Color.FromArgb(ordem, ordem, ordem));
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+
+            if (rbB.Checked)
+            {
+                Image image1 = imgB.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 0;
+                if (!rb3x3.Checked && !rb5x5.Checked && !rb7x7.Checked)
+                {
+                    MessageBox.Show("Selecione o tamanho da vizinhança para filtrar!");
+                    return;
+                }
+                if (rb3x3.Checked)
+                {
+                    tamanhoVizinhanca = 3;
+                }
+                if (rb5x5.Checked)
+                {
+                    tamanhoVizinhanca = 5;
+                }
+                if (rb7x7.Checked)
+                {
+                    tamanhoVizinhanca = 7;
+                }
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        int ordem = GetOrdem(vizinhanca);
+
+                        imagemFiltrada.SetPixel(x, y, Color.FromArgb(ordem, ordem, ordem));
                     }
                 }
 
