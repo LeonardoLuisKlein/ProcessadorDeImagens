@@ -3058,14 +3058,17 @@ namespace processamento_de_imagens
                 if (rb3x3.Checked)
                 {
                     tamanhoVizinhanca = 3;
+                    nupOrdem.Maximum = 8;
                 }
                 if (rb5x5.Checked)
                 {
                     tamanhoVizinhanca = 5;
+                    nupOrdem.Maximum = 17;
                 }
                 if (rb7x7.Checked)
                 {
                     tamanhoVizinhanca = 7;
+                    nupOrdem.Maximum = 35;
                 }
 
                 Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
@@ -3150,14 +3153,17 @@ namespace processamento_de_imagens
                 if (rb3x3.Checked)
                 {
                     tamanhoVizinhanca = 3;
+                    nupOrdem.Maximum = 8;
                 }
                 if (rb5x5.Checked)
                 {
                     tamanhoVizinhanca = 5;
+                    nupOrdem.Maximum = 17;
                 }
                 if (rb7x7.Checked)
                 {
                     tamanhoVizinhanca = 7;
+                    nupOrdem.Maximum = 35;
                 }
 
                 Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
