@@ -29,12 +29,12 @@ namespace processamento_de_imagens
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imgA = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btCarregaImgA = new System.Windows.Forms.Button();
@@ -73,6 +73,7 @@ namespace processamento_de_imagens
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tbBrilho = new System.Windows.Forms.TrackBar();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.lbBrilho = new System.Windows.Forms.Label();
             this.rb3x3 = new System.Windows.Forms.RadioButton();
             this.rb5x5 = new System.Windows.Forms.RadioButton();
             this.rb7x7 = new System.Windows.Forms.RadioButton();
@@ -83,7 +84,10 @@ namespace processamento_de_imagens
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.lbBrilho = new System.Windows.Forms.Label();
+            this.btMediana = new System.Windows.Forms.Button();
+            this.btSuave = new System.Windows.Forms.Button();
+            this.btOrdem = new System.Windows.Forms.Button();
+            this.nupOrdem = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.imgA)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -103,6 +107,7 @@ namespace processamento_de_imagens
             this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupOrdem)).BeginInit();
             this.SuspendLayout();
             // 
             // imgA
@@ -353,7 +358,7 @@ namespace processamento_de_imagens
             // 
             // btExer9
             // 
-            this.btExer9.Location = new System.Drawing.Point(13, 16);
+            this.btExer9.Location = new System.Drawing.Point(6, 16);
             this.btExer9.Name = "btExer9";
             this.btExer9.Size = new System.Drawing.Size(110, 38);
             this.btExer9.TabIndex = 5;
@@ -363,7 +368,7 @@ namespace processamento_de_imagens
             // 
             // btExer7
             // 
-            this.btExer7.Location = new System.Drawing.Point(348, 16);
+            this.btExer7.Location = new System.Drawing.Point(365, 16);
             this.btExer7.Name = "btExer7";
             this.btExer7.Size = new System.Drawing.Size(110, 38);
             this.btExer7.TabIndex = 6;
@@ -499,10 +504,20 @@ namespace processamento_de_imagens
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Ajustar o brilho";
             // 
+            // lbBrilho
+            // 
+            this.lbBrilho.AutoSize = true;
+            this.lbBrilho.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBrilho.Location = new System.Drawing.Point(388, 22);
+            this.lbBrilho.Name = "lbBrilho";
+            this.lbBrilho.Size = new System.Drawing.Size(18, 20);
+            this.lbBrilho.TabIndex = 16;
+            this.lbBrilho.Text = "0";
+            // 
             // rb3x3
             // 
             this.rb3x3.AutoSize = true;
-            this.rb3x3.Location = new System.Drawing.Point(137, 36);
+            this.rb3x3.Location = new System.Drawing.Point(6, 27);
             this.rb3x3.Name = "rb3x3";
             this.rb3x3.Size = new System.Drawing.Size(50, 17);
             this.rb3x3.TabIndex = 18;
@@ -513,7 +528,7 @@ namespace processamento_de_imagens
             // rb5x5
             // 
             this.rb5x5.AutoSize = true;
-            this.rb5x5.Location = new System.Drawing.Point(137, 135);
+            this.rb5x5.Location = new System.Drawing.Point(88, 27);
             this.rb5x5.Name = "rb5x5";
             this.rb5x5.Size = new System.Drawing.Size(50, 17);
             this.rb5x5.TabIndex = 19;
@@ -524,7 +539,7 @@ namespace processamento_de_imagens
             // rb7x7
             // 
             this.rb7x7.AutoSize = true;
-            this.rb7x7.Location = new System.Drawing.Point(137, 252);
+            this.rb7x7.Location = new System.Drawing.Point(176, 27);
             this.rb7x7.Name = "rb7x7";
             this.rb7x7.Size = new System.Drawing.Size(50, 17);
             this.rb7x7.TabIndex = 20;
@@ -534,9 +549,9 @@ namespace processamento_de_imagens
             // 
             // btMax
             // 
-            this.btMax.Location = new System.Drawing.Point(6, 25);
+            this.btMax.Location = new System.Drawing.Point(122, 59);
             this.btMax.Name = "btMax";
-            this.btMax.Size = new System.Drawing.Size(110, 38);
+            this.btMax.Size = new System.Drawing.Size(104, 38);
             this.btMax.TabIndex = 21;
             this.btMax.Text = "Máximo";
             this.btMax.UseVisualStyleBackColor = true;
@@ -544,9 +559,9 @@ namespace processamento_de_imagens
             // 
             // btMin
             // 
-            this.btMin.Location = new System.Drawing.Point(6, 124);
+            this.btMin.Location = new System.Drawing.Point(6, 59);
             this.btMin.Name = "btMin";
-            this.btMin.Size = new System.Drawing.Size(110, 38);
+            this.btMin.Size = new System.Drawing.Size(104, 38);
             this.btMin.TabIndex = 22;
             this.btMin.Text = "Mínimo";
             this.btMin.UseVisualStyleBackColor = true;
@@ -554,9 +569,9 @@ namespace processamento_de_imagens
             // 
             // btMed
             // 
-            this.btMed.Location = new System.Drawing.Point(6, 241);
+            this.btMed.Location = new System.Drawing.Point(6, 127);
             this.btMed.Name = "btMed";
-            this.btMed.Size = new System.Drawing.Size(110, 38);
+            this.btMed.Size = new System.Drawing.Size(104, 38);
             this.btMed.TabIndex = 23;
             this.btMed.Text = "Média";
             this.btMed.UseVisualStyleBackColor = true;
@@ -564,6 +579,10 @@ namespace processamento_de_imagens
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.nupOrdem);
+            this.groupBox10.Controls.Add(this.btOrdem);
+            this.groupBox10.Controls.Add(this.btSuave);
+            this.groupBox10.Controls.Add(this.btMediana);
             this.groupBox10.Controls.Add(this.btMed);
             this.groupBox10.Controls.Add(this.btMin);
             this.groupBox10.Controls.Add(this.btMax);
@@ -572,7 +591,7 @@ namespace processamento_de_imagens
             this.groupBox10.Controls.Add(this.rb3x3);
             this.groupBox10.Location = new System.Drawing.Point(516, 405);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(213, 292);
+            this.groupBox10.Size = new System.Drawing.Size(232, 292);
             this.groupBox10.TabIndex = 24;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Vizinhança";
@@ -587,45 +606,72 @@ namespace processamento_de_imagens
             // 
             // chart1
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
-            this.chart1.Location = new System.Drawing.Point(735, 411);
+            chartArea5.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.chart1.Legends.Add(legend5);
+            this.chart1.Location = new System.Drawing.Point(754, 411);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.chart1.Series.Add(series5);
             this.chart1.Size = new System.Drawing.Size(302, 286);
             this.chart1.TabIndex = 26;
             this.chart1.Text = "chart1";
             // 
             // chart2
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart2.Legends.Add(legend4);
+            chartArea6.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.chart2.Legends.Add(legend6);
             this.chart2.Location = new System.Drawing.Point(1062, 411);
             this.chart2.Name = "chart2";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chart2.Series.Add(series4);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.chart2.Series.Add(series6);
             this.chart2.Size = new System.Drawing.Size(302, 286);
             this.chart2.TabIndex = 27;
             this.chart2.Text = "chart2";
             // 
-            // lbBrilho
+            // btMediana
             // 
-            this.lbBrilho.AutoSize = true;
-            this.lbBrilho.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBrilho.Location = new System.Drawing.Point(388, 22);
-            this.lbBrilho.Name = "lbBrilho";
-            this.lbBrilho.Size = new System.Drawing.Size(18, 20);
-            this.lbBrilho.TabIndex = 16;
-            this.lbBrilho.Text = "0";
+            this.btMediana.Location = new System.Drawing.Point(122, 127);
+            this.btMediana.Name = "btMediana";
+            this.btMediana.Size = new System.Drawing.Size(104, 38);
+            this.btMediana.TabIndex = 24;
+            this.btMediana.Text = "Mediana";
+            this.btMediana.UseVisualStyleBackColor = true;
+            this.btMediana.Click += new System.EventHandler(this.btMediana_Click);
+            // 
+            // btSuave
+            // 
+            this.btSuave.Location = new System.Drawing.Point(6, 185);
+            this.btSuave.Name = "btSuave";
+            this.btSuave.Size = new System.Drawing.Size(220, 38);
+            this.btSuave.TabIndex = 25;
+            this.btSuave.Text = "Suavização conservativa";
+            this.btSuave.UseVisualStyleBackColor = true;
+            this.btSuave.Click += new System.EventHandler(this.btSuave_Click);
+            // 
+            // btOrdem
+            // 
+            this.btOrdem.Location = new System.Drawing.Point(6, 248);
+            this.btOrdem.Name = "btOrdem";
+            this.btOrdem.Size = new System.Drawing.Size(104, 38);
+            this.btOrdem.TabIndex = 26;
+            this.btOrdem.Text = "Ordem";
+            this.btOrdem.UseVisualStyleBackColor = true;
+            this.btOrdem.Click += new System.EventHandler(this.btOrdem_Click);
+            // 
+            // nupOrdem
+            // 
+            this.nupOrdem.Location = new System.Drawing.Point(141, 259);
+            this.nupOrdem.Name = "nupOrdem";
+            this.nupOrdem.Size = new System.Drawing.Size(75, 20);
+            this.nupOrdem.TabIndex = 11;
             // 
             // Form1
             // 
@@ -669,6 +715,7 @@ namespace processamento_de_imagens
             this.groupBox10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupOrdem)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -724,6 +771,10 @@ namespace processamento_de_imagens
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.Label lbBrilho;
+        private System.Windows.Forms.Button btMediana;
+        private System.Windows.Forms.Button btSuave;
+        private System.Windows.Forms.NumericUpDown nupOrdem;
+        private System.Windows.Forms.Button btOrdem;
     }
 }
 
