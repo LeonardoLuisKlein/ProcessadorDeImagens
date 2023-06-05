@@ -128,8 +128,20 @@ namespace processamento_de_imagens
             }
 
             Array.Sort(elementos);
-
             int meio = elementos[4];
+            if (rb3x3.Checked) 
+            {
+                meio = elementos[4];
+            }
+            else if(rb5x5.Checked)
+            {
+                meio = elementos[12];
+            }
+            else if (rb5x5.Checked)
+            {
+                meio = elementos[24];
+            }
+
             int min = elementos.Min();
             int max = elementos.Max();
             if (meio > max)
@@ -141,9 +153,7 @@ namespace processamento_de_imagens
                 meio = min;
             }
 
-            elementos[4] = meio;
-
-            return elementos[4];
+            return meio;
         }
 
         private int GetOrdem(int[,] matriz)
@@ -166,6 +176,26 @@ namespace processamento_de_imagens
             int ordem;
             ordem = elementos[(int)nupOrdem.Value];
             return ordem;
+        }
+
+        private double GetGaussian(int[,]  vizi, double sigma)
+        {
+            double soma = 0;
+
+            int size = vizi.GetLength(0);
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    int valorPixel = vizi[i, j];
+                    double exponente = -(i * i + j * j) / (2 * sigma * sigma);
+                    double peso = Math.Exp(exponente) / (2 * Math.PI * sigma * sigma);
+                    soma += valorPixel * peso;
+                }
+            }
+
+            return soma;
         }
 
         // Função para carregar uma imagem no campo A
@@ -1678,13 +1708,14 @@ namespace processamento_de_imagens
                     }
                 }
 
-                // Para ajustar o valor do track bar na metade
+                // Para ajustar o valor do track bar no valor 0
                 int brightnessValue = tbBrilho.Value - 50;
 
                 Image image3 = imagemResultadoSoma;
 
                 // Cria uma matriz aonde cada linha representa um componente da cor, R,G,B,A,B. 
                 // A matriz tem on numero 1 nas diagonais para não alterar as cores da imagem
+                // A última linha da matriz, corresponde ao brilho, que é dividido por 255/f, sendo valores entre 0 e 1, depois continua com 0 e 1 na diagonal
                 float[][] colorMatrixElements = {
                     new float[] {1, 0, 0, 0, 0},
                     new float[] {0, 1, 0, 0, 0},
@@ -1723,6 +1754,7 @@ namespace processamento_de_imagens
                     return;
 
                 }
+
                 float[][] colorMatrixElements = {
                     new float[] {1, 0, 0, 0, 0},
                     new float[] {0, 1, 0, 0, 0},
@@ -3204,6 +3236,181 @@ namespace processamento_de_imagens
                         int ordem = GetOrdem(vizinhanca);
 
                         imagemFiltrada.SetPixel(x, y, Color.FromArgb(ordem, ordem, ordem));
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+        }
+
+        private void btGaussian_Click(object sender, EventArgs e)
+        {
+            if (!rbA.Checked && !rbB.Checked && !rbDuas.Checked)
+            {
+                MessageBox.Show("Por favor, selecione uma opção para processar uma imagem");
+                return;
+            }
+
+            if (rbDuas.Checked)
+            {
+                MessageBox.Show("O processamento é feito somente com a imagem A ou B");
+                return;
+            }
+
+            if (rbA.Checked)
+            {
+                Image image1 = imgA.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem A");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 5;
+                double sigma = (double)nupGaussiana.Value;
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        double gaussian = GetGaussian(vizinhanca, sigma);
+
+                        int pixelNovo = (int)Math.Round(gaussian);
+                        if (pixelNovo < 0) pixelNovo = 0;
+                        else if (pixelNovo > 255) pixelNovo = 255;
+                        Color imagemNova = Color.FromArgb(pixelNovo, pixelNovo, pixelNovo);
+                        imagemFiltrada.SetPixel(x, y, imagemNova);
+                    }
+                }
+
+                imgFinal.Image = imagemFiltrada;
+            }
+
+            if (rbB.Checked)
+            {
+                Image image1 = imgB.Image;
+
+                if (image1 == null)
+                {
+                    MessageBox.Show("Por favor, selecione uma imagem no campo Imagem B");
+                    return;
+
+                }
+
+                Bitmap imagemCinza = new Bitmap(image1.Width, image1.Height);
+
+                for (int x = 0; x < image1.Width; x++)
+                {
+                    for (int y = 0; y < image1.Height; y++)
+                    {
+                        Color color1 = ((Bitmap)image1).GetPixel(x, y);
+                        int r = color1.R;
+                        int g = color1.G;
+                        int b = color1.B;
+                        int gray = (r + g + b) / 3;
+
+                        Color novaCor = Color.FromArgb(color1.A, gray, gray, gray);
+                        imagemCinza.SetPixel(x, y, novaCor);
+
+                    }
+                }
+
+                int tamanhoVizinhanca = 5;
+                double sigma = (double)nupGaussiana.Value;
+
+                Bitmap imagemFiltrada = new Bitmap(imagemCinza.Width, imagemCinza.Height);
+
+                for (int x = 0; x < imagemCinza.Width; x++)
+                {
+                    for (int y = 0; y < imagemCinza.Height; y++)
+                    {
+                        int[,] vizinhanca = new int[tamanhoVizinhanca, tamanhoVizinhanca];
+                        for (int i = 0; i < tamanhoVizinhanca; i++)
+                        {
+                            for (int j = 0; j < tamanhoVizinhanca; j++)
+                            {
+                                int xIndex = x + i - tamanhoVizinhanca / 2;
+                                int yIndex = y + j - tamanhoVizinhanca / 2;
+
+                                if (xIndex < 0)
+                                {
+                                    xIndex = 0;
+                                }
+                                if (xIndex >= imagemCinza.Width)
+                                {
+                                    xIndex = imagemCinza.Width - 1;
+                                }
+                                if (yIndex < 0)
+                                {
+                                    yIndex = 0;
+                                }
+                                if (yIndex >= imagemCinza.Height)
+                                {
+                                    yIndex = imagemCinza.Height - 1;
+                                }
+
+                                vizinhanca[i, j] = imagemCinza.GetPixel(xIndex, yIndex).R;
+                            }
+                        }
+
+                        double gaussian = GetGaussian(vizinhanca, sigma);
+
+                        int pixelNovo = (int)Math.Round(gaussian);
+                        if (pixelNovo < 0) pixelNovo = 0;
+                        else if (pixelNovo > 255) pixelNovo = 255;
+                        Color imagemNova = Color.FromArgb(pixelNovo, pixelNovo, pixelNovo);
+                        imagemFiltrada.SetPixel(x, y, imagemNova);
                     }
                 }
 
